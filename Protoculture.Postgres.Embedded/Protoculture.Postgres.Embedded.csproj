@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RootNamespace>Protoculture.Postgres.Embedded</RootNamespace>
+        <Configurations>Debug</Configurations>
+        <Platforms>AMD64</Platforms>
+    </PropertyGroup>
+
+    <!-- see: https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties -->
+
+    <Target Name="DownloadPostgres" BeforeTargets="Build">
+        <DownloadFile SourceUrl="https://github.com/postgres/postgres/archive/refs/tags/REL_$(POSTGRES_VERSION).zip" DestinationFolder="$(MSBuildProjectDirectory)/postgres">
+            <Output TaskParameter="DownloadedFile" PropertyName="PostgresArchive" />
+        </DownloadFile>
+        <Unzip SourceFiles="$(PostgresArchive)" DestinationFolder="$(MSBuildProjectDirectory)/postgres" />
+    </Target>
+
+    <!-- see: https://www.postgresql.org/docs/14/install-procedure.html -->
+    
+    <Target Name="ConfigurePostgres" AfterTargets="DownloadPostgres">
+        <Delete Files="$(MSBuildProjectDirectory)/postgres/postgres-dist-REL_$(POSTGRES_VERSION)" />
+        <Exec Command="chmod +x configure" WorkingDirectory="$(MSBuildProjectDirectory)/postgres/postgres-REL_$(POSTGRES_VERSION)" />
+        <Exec Command="./configure --prefix='$(MSBuildProjectDirectory)/postgres/postgres-dist-REL_$(POSTGRES_VERSION)' --with-uuid='ossp'" WorkingDirectory="$(MSBuildProjectDirectory)/postgres/postgres-REL_$(POSTGRES_VERSION)" />
+    </Target>
+
+    <Target Name="BuildPostgres" AfterTargets="DownloadPostgres">
+        <Exec Command="make" WorkingDirectory="$(MSBuildProjectDirectory)/postgres/postgres-REL_$(POSTGRES_VERSION)" />
+        <Exec Command="make check" WorkingDirectory="$(MSBuildProjectDirectory)/postgres/postgres-REL_$(POSTGRES_VERSION)" />
+        <Exec Command="make install-strip" WorkingDirectory="$(MSBuildProjectDirectory)/postgres/postgres-REL_$(POSTGRES_VERSION)" />
+    </Target>
+    
+    <ItemGroup>
+        <Folder Include="src" />
+    </ItemGroup>
+
+</Project>
