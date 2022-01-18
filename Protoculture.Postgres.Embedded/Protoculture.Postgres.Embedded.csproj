@@ -7,7 +7,6 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RootNamespace>Protoculture.Postgres.Embedded</RootNamespace>
         <Configurations>Debug</Configurations>
-        <Platforms>AMD64</Platforms>
     </PropertyGroup>
 
     <!-- see: https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties -->
