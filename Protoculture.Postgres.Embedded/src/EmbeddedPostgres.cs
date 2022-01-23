@@ -103,9 +103,10 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         serverProcess.OutputDataReceived += OnServerProcessOutputDataReceived;
         serverProcess.ErrorDataReceived += OnServerProcessOutputDataReceived;
         serverProcess.Exited += OnServerProcessExited;
-        
+
         serverProcess.Start();
 
+        serverProcess.EnableRaisingEvents = true;
         serverProcess.BeginOutputReadLine();
         serverProcess.BeginErrorReadLine();
 

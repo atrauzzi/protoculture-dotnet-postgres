@@ -1,3 +1,4 @@
+using System.IO;
 using FluentAssertions;
 using Npgsql;
 using Xunit;
@@ -32,13 +33,27 @@ public class EmbeddedPostgresTests
     {
         await using var server = new EmbeddedPostgres();
         await using var connection = new NpgsqlConnection(server.Configuration.SocketConnectionString);
-        
-        await using var command = new NpgsqlCommand("SELECT true", connection);
+        await using var command = new NpgsqlCommand("select true", connection);
 
         await server.Start();
         await connection.OpenAsync();
         var result = await command.ExecuteScalarAsync();
 
         result.Should().BeOfType<bool>().Subject.Should().BeTrue();
+    }
+
+    [Fact]
+    public async void ItShouldCleanUpAfterItself()
+    {
+        string basePath;
+        
+        await using (var server = new EmbeddedPostgres())
+        {
+            await server.Start();
+
+            basePath = server.Configuration.BasePath;
+        }
+
+        Directory.Exists(basePath).Should().BeFalse();
     }
 }
