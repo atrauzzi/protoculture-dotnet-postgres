@@ -11,10 +11,14 @@ public struct EmbeddedPostgresConfiguration
 
     public readonly string ExecutablePath(PostgresExecutable postgresExecutable) => $"{ResourcesPath}{DirectorySeparatorChar}bin{DirectorySeparatorChar}{postgresExecutable.ExecutableName()}";
 
-    public string BasePath { get; init; } = $"{GetTempPath()}{DirectorySeparatorChar}protoculture-postgres-embedded-{Guid.NewGuid()}";
+    public string BasePath { get; init; } = $"{GetTempPath()}protoculture-postgres-embedded-{Guid.NewGuid()}";
 
     public int Port { get; init; } = new Random().Next(10000, 65534);
 
+    public bool Transient { get; init; }
+
+    public bool TerminateWhenDisposed { get; init; } = true;
+    
     private readonly string dataPath = "data";
 
     public string DataPath
@@ -32,10 +36,13 @@ public struct EmbeddedPostgresConfiguration
     }
 
     public string SocketFilePath => $"{SocketPath}{DirectorySeparatorChar}.s.PGSQL.{Port}";
+
+    public string SocketConnectionString => $"Host={SocketPath};Port={Port};Database=postgres";
     
     private string AbsoluteOrRelative(string basePath, string path) => IsPathRooted(path) switch
     {
         true => path,
+        false when string.IsNullOrEmpty(path) => basePath,
         false => $"{basePath}{DirectorySeparatorChar}{path}",
     };
 }

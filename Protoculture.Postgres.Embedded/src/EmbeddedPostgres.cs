@@ -2,17 +2,27 @@ using System.Diagnostics;
 
 namespace Protoculture.Postgres.Embedded;
 
-public class EmbeddedPostgres : IDisposable
+public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
 {
-    private readonly EmbeddedPostgresConfiguration configuration;
+    public readonly EmbeddedPostgresConfiguration Configuration;
 
     private TaskCompletionSource<bool> ready = new();
 
     private Process? serverProcess;
+
+    public bool Running => ready.Task.IsCompleted && ready.Task.Result;
+    
+    public EmbeddedPostgres()
+    {
+        Configuration = new()
+        {
+            Transient = true,
+        };
+    }
     
     public EmbeddedPostgres(EmbeddedPostgresConfiguration configuration)
     {
-        this.configuration = configuration;
+        Configuration = configuration;
     }
 
     public async Task Start()
@@ -22,21 +32,29 @@ public class EmbeddedPostgres : IDisposable
         await StartDatabase();
     }
 
+    public async ValueTask DisposeAsync()
+    {
+        if (Configuration.TerminateWhenDisposed)
+        {
+            await Stop();
+        }
+    }
+    
     public void Dispose()
     {
-        Stop().Wait();
+        DisposeAsync().AsTask().Wait();
     }
     
     private async Task InitDb()
     {
-        Directory.CreateDirectory(configuration.DataPath);
+        Directory.CreateDirectory(Configuration.DataPath);
         
         var initdbProcessStartInfo = new ProcessStartInfo
         {
-            FileName = configuration.ExecutablePath(PostgresExecutable.Initdb),
+            FileName = Configuration.ExecutablePath(PostgresExecutable.Initdb),
             Arguments = string.Join(" ", new List<string>
             {
-                $"-D {configuration.DataPath}",
+                $"-D {Configuration.DataPath}",
             }),
             Environment =
             {
@@ -64,12 +82,12 @@ public class EmbeddedPostgres : IDisposable
         
         var serverProcessStartInfo = new ProcessStartInfo
         {
-            FileName = configuration.ExecutablePath(PostgresExecutable.Postgres),
+            FileName = Configuration.ExecutablePath(PostgresExecutable.Postgres),
             Arguments = string.Join(" ", new List<string>
             {
-                $"-D {configuration.DataPath}",
-                $"-p {configuration.Port}",
-                $"-k {configuration.SocketPath}",
+                $"-D {Configuration.DataPath}",
+                $"-p {Configuration.Port}",
+                $"-k {Configuration.SocketPath}",
             }),
             UseShellExecute = false,
             CreateNoWindow = true,
@@ -84,6 +102,7 @@ public class EmbeddedPostgres : IDisposable
         
         serverProcess.OutputDataReceived += OnServerProcessOutputDataReceived;
         serverProcess.ErrorDataReceived += OnServerProcessOutputDataReceived;
+        serverProcess.Exited += OnServerProcessExited;
         
         serverProcess.Start();
 
@@ -102,10 +121,10 @@ public class EmbeddedPostgres : IDisposable
 
         var pgctlProcess = Process.Start(new ProcessStartInfo
         {
-            FileName = configuration.ExecutablePath(PostgresExecutable.Pgctl),
+            FileName = Configuration.ExecutablePath(PostgresExecutable.Pgctl),
             Arguments = string.Join(" ", new List<string>
             {
-                $"-D {configuration.DataPath}",
+                $"-D {Configuration.DataPath}",
                 "-m fast",
                 "stop",
             }),
@@ -125,7 +144,7 @@ public class EmbeddedPostgres : IDisposable
             return;
         }
 
-        if (configuration.ShowOutput)
+        if (Configuration.ShowOutput)
         {
             Console.WriteLine(args.Data);
         }
@@ -137,16 +156,24 @@ public class EmbeddedPostgres : IDisposable
 
         if (args.Data.Contains("database system is shut down"))
         {
-            CleanUp();
+            ready = new(false);
         }
+    }
+
+    private void OnServerProcessExited(object? sender, EventArgs e)
+    {
+        CleanUp();
     }
 
     private void CleanUp()
     {
         serverProcess?.Dispose();
         serverProcess = null;
-        
-        Directory.Delete(configuration.BasePath, true);
+
+        if (Configuration.Transient)
+        {
+            Directory.Delete(Configuration.BasePath, true);
+        }
         
         ready = new();
     }
