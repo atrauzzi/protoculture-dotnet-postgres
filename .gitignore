@@ -451,3 +451,4 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 /Protoculture.Postgres.Embedded/postgres
+/Protoculture.Postgres.Embedded/postgres-source
