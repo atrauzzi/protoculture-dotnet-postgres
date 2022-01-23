@@ -9,38 +9,10 @@
         <Configurations>Debug</Configurations>
     </PropertyGroup>
 
-    <!-- see: https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties -->
-
-    <Target Name="DownloadPostgres">
-        <DownloadFile SourceUrl="https://github.com/postgres/postgres/archive/refs/tags/REL_$(POSTGRES_VERSION).zip" DestinationFolder="$(MSBuildProjectDirectory)/postgres-source">
-            <Output TaskParameter="DownloadedFile" PropertyName="PostgresArchive" />
-        </DownloadFile>
-        <Unzip SourceFiles="$(PostgresArchive)" DestinationFolder="$(MSBuildProjectDirectory)/postgres-source" />
-    </Target>
-
-    <!-- see: https://www.postgresql.org/docs/14/install-procedure.html -->
-    
-    <Target Name="ConfigurePostgres" AfterTargets="DownloadPostgres">
-        <Delete Files="$(MSBuildProjectDirectory)/postgres-source/postgres-dist-REL_$(POSTGRES_VERSION)" />
-        <Exec Command="chmod +x configure" WorkingDirectory="$(MSBuildProjectDirectory)/postgres-source/postgres-REL_$(POSTGRES_VERSION)" />
-        <Exec Command="./configure --prefix='$(MSBuildProjectDirectory)/postgres' --with-uuid='ossp'" WorkingDirectory="$(MSBuildProjectDirectory)/postgres-source/postgres-REL_$(POSTGRES_VERSION)" />
-    </Target>
-
-    <Target Name="BuildPostgres" AfterTargets="DownloadPostgres">
-        <Exec Command="make" WorkingDirectory="$(MSBuildProjectDirectory)/postgres-source/postgres-REL_$(POSTGRES_VERSION)" />
-        <Exec Command="make check" WorkingDirectory="$(MSBuildProjectDirectory)/postgres-source/postgres-REL_$(POSTGRES_VERSION)" />
-        <Exec Command="make install-strip" WorkingDirectory="$(MSBuildProjectDirectory)/postgres-source/postgres-REL_$(POSTGRES_VERSION)" />
-    </Target>
-
-    <Target Name="IncludePostgres" AfterTargets="BuildPostgres">
-        <Copy SourceFiles="@(Postgres)" DestinationFiles="@(Postgres->'$(TargetDir)/postgres/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-    </Target>
-    
     <ItemGroup>
         <Postgres Include="postgres/**/*.*" />
-        <Folder Include="obj" />
 
-        <Content Include="postgres\**\*" CopyToPublishDirectory="PreserveNewest">
+        <Content Include="postgres/**/*.*" CopyToPublishDirectory="PreserveNewest">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Pack>true</Pack>
         </Content>
