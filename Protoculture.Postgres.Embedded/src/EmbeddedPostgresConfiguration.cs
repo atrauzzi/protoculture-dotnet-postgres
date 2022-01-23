@@ -13,8 +13,6 @@ public struct EmbeddedPostgresConfiguration
 
     public string BasePath { get; init; } = $"{GetTempPath()}{DirectorySeparatorChar}protoculture-postgres-embedded-{Guid.NewGuid()}";
 
-    public string AdminUser { get; init; } = "admin";
-
     public int Port { get; init; } = new Random().Next(10000, 65534);
 
     private readonly string dataPath = "data";

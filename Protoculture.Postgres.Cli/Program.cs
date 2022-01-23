@@ -1,8 +1,10 @@
 ﻿using Protoculture.Postgres.Embedded;
 
-using var server = new EmbeddedPostgres(new()
+var server = new EmbeddedPostgres(new()
 {
     ShowOutput = true,
+    Port = 31337,
+    BasePath = "/tmp/protoculture-postgres-embedded", 
 });
 
 await server.Start();
