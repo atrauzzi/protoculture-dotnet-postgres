@@ -1,0 +1,33 @@
+on:
+  push:
+  release:
+    types: [ published ]
+
+jobs:
+  linux:
+    name: "Linux"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+  windows:
+    name: "Windows"
+    runs-on: "windows-latest"
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+  
+  package:
+    name: "Package"
+    runs-on: "ubuntu-latest"
+    needs: [ linux, windows ]
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
