@@ -10,6 +10,7 @@
         <Authors>Alexander Trauzzi</Authors>
         <PackageDescription>Embedded-style PostgreSQL for .NET Applications</PackageDescription>
         <RepositoryUrl>https://github.com/atrauzzi/protoculture-dotnet-postgres</RepositoryUrl>
+        <NoWarn>NU5100</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
