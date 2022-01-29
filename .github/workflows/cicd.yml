@@ -42,6 +42,7 @@ jobs:
           name: "postgres-linux-x64"
           path: "./Protoculture.Postgres.Embedded/postgres/linux/x86_64/"
 
+  # see: https://github.com/npgsql/npgsql/blob/main/.github/workflows/build.yml#L136
   windows-x86-64:
     name: "Windows x86-64"
     runs-on: "windows-latest"
