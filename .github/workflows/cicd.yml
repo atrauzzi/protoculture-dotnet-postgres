@@ -1,3 +1,5 @@
+# see: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+# see: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on:
   push:
   release:

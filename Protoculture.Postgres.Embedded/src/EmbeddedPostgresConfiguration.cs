@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using static System.IO.Path;
 using static Protoculture.Postgres.Embedded.Util;
 
