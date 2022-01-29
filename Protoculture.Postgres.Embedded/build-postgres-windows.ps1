@@ -19,8 +19,8 @@ if ("${cpuArchitecture}" -ne "AMD64")
 
 $cpuArchitecture="x86_64"
 
-Remove-Item -Recurse -Path "postgres"
-Remove-Item -Recurse -Path "${buildDir}"
+# Remove-Item -Recurse -Path "postgres"
+# Remove-Item -Recurse -Path "${buildDir}"
 New-Item -Type Directory -Path "${scriptDir}\postgres\windows\${cpuArchitecture}"
 New-Item -Type Directory -Path "${buildDir}"
 
