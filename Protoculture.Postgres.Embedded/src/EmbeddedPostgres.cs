@@ -58,7 +58,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
     private async Task InitDb()
     {
         Directory.CreateDirectory(Configuration.DataPath);
-        
+
         var initdbProcessStartInfo = new ProcessStartInfo
         {
             FileName = Configuration.ExecutablePath(PostgresExecutable.Initdb),
