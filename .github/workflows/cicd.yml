@@ -67,12 +67,12 @@ jobs:
       - name: "Build Postgres"
         run: "./Protoculture.Postgres.Embedded/build-postgres-windows.ps1"
   
-      - name: "Test Integration"
-        env:
-          DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
-          DOTNET_NOLOGO: "1"
-        run: "dotnet test"
+#      - name: "Test Integration"
+#        env:
+#          DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+#          DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+#          DOTNET_NOLOGO: "1"
+#        run: "dotnet test"
 
       - name: "Provide Postgres Build"
         uses: "actions/upload-artifact@v2"
