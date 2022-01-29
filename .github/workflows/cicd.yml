@@ -139,6 +139,12 @@ jobs:
             --configuration="Release" \
             -property:version="0.0.1-pre"
 
+      - name: "Publish Package Artifact"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "package"
+          path: "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.0.0.1-pre.nupkg"
+
       - name: "Push Private Nuget Package"
         env:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
