@@ -32,7 +32,12 @@ public class EmbeddedPostgresTests
     public async void ItCanBeReached()
     {
         await using var server = new EmbeddedPostgres();
-        await using var connection = new NpgsqlConnection(server.Configuration.SocketConnectionString);
+        
+        var connectionString = server.Configuration.SupportsSockets
+            ? server.Configuration.SocketConnectionString
+            : server.Configuration.TcpConnectionString;
+
+        await using var connection = new NpgsqlConnection(connectionString);
         await using var command = new NpgsqlCommand("select true", connection);
 
         await server.Start();
@@ -43,7 +48,7 @@ public class EmbeddedPostgresTests
     }
 
     [Fact]
-    public async void ItShouldCleanUpAfterItself()
+    public async void ItShouldCleanUpAfterItselfWhenTransient()
     {
         string basePath;
         

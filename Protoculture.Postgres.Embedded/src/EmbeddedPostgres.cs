@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Protoculture.Postgres.Embedded;
 
@@ -6,11 +10,17 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
 {
     public readonly EmbeddedPostgresConfiguration Configuration;
 
-    private TaskCompletionSource<bool> ready = new();
+    private TaskCompletionSource<bool> initialization = new();
+    private TaskCompletionSource<bool> shutdown = new();
 
     private Process? serverProcess;
 
-    public bool Running => ready.Task.IsCompleted && ready.Task.Result;
+    public bool Running => (
+        initialization.Task.IsCompleted 
+        && initialization.Task.Result
+        && ! shutdown.Task.IsCompleted
+        && ((! serverProcess?.HasExited) ?? false)
+    );
     
     public EmbeddedPostgres()
     {
@@ -78,17 +88,23 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
 
     private async Task StartDatabase()
     {
-        ready = new();
+        ResetControlStates();
+
+        var arguments = new List<string>
+        {
+            $"-D {Configuration.DataPath}",
+            $"-p {Configuration.Port}",
+        };
+
+        if (Configuration.SupportsSockets)
+        {
+            arguments.Add($"-k {Configuration.SocketPath}");
+        }
         
         var serverProcessStartInfo = new ProcessStartInfo
         {
             FileName = Configuration.ExecutablePath(PostgresExecutable.Postgres),
-            Arguments = string.Join(" ", new List<string>
-            {
-                $"-D {Configuration.DataPath}",
-                $"-p {Configuration.Port}",
-                $"-k {Configuration.SocketPath}",
-            }),
+            Arguments = string.Join(" ", arguments),
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
@@ -110,7 +126,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         serverProcess.BeginOutputReadLine();
         serverProcess.BeginErrorReadLine();
 
-        await ready.Task;
+        await initialization.Task;
     }
 
     public async Task Stop()
@@ -136,6 +152,13 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         });
 
         await pgctlProcess!.WaitForExitAsync();
+        await shutdown.Task;
+    }
+
+    private void ResetControlStates()
+    {
+        initialization = new();
+        shutdown = new();
     }
     
     private void OnServerProcessOutputDataReceived(object sender, DataReceivedEventArgs args)
@@ -152,18 +175,15 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         
         if (args.Data.Contains("database system is ready to accept connections"))
         {
-            ready.SetResult(true);
-        }
-
-        if (args.Data.Contains("database system is shut down"))
-        {
-            ready = new(false);
+            initialization.SetResult(true);
         }
     }
 
     private void OnServerProcessExited(object? sender, EventArgs e)
     {
         CleanUp();
+        
+        shutdown.SetResult(true);
     }
 
     private void CleanUp()
@@ -176,6 +196,6 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             Directory.Delete(Configuration.BasePath, true);
         }
         
-        ready = new();
+        initialization = new(false);
     }
 }
