@@ -177,6 +177,13 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         {
             initialization.SetResult(true);
         }
+
+        if (args.Data.Contains("Execution of PostgreSQL by a user with administrative permissions is not permitted"))
+        {
+            initialization.SetResult(false);
+            
+            throw new("Postgres cannot be run as an administrator.");
+        }
     }
 
     private void OnServerProcessExited(object? sender, EventArgs e)
