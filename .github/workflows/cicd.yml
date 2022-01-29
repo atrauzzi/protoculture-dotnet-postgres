@@ -145,7 +145,7 @@ jobs:
           name: "package"
           path: "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.0.0.1-pre.nupkg"
 
-      - name: "Push Private Nuget Package"
+      - name: "Push Personal Nuget Package"
         env:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
           DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"

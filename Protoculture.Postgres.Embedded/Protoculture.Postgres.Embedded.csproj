@@ -5,8 +5,10 @@
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RootNamespace>Protoculture.Postgres.Embedded</RootNamespace>
+        <AssemblyName>Protoculture.Postgres.Embedded</AssemblyName>
         <Configurations>Debug</Configurations>
         <PackageId>Protoculture.Postgres.Embedded</PackageId>
+        <Version>0.0.0-development</Version>
         <Authors>Alexander Trauzzi</Authors>
         <PackageDescription>Embedded-style PostgreSQL for .NET Applications</PackageDescription>
         <RepositoryUrl>https://github.com/atrauzzi/protoculture-dotnet-postgres</RepositoryUrl>
