@@ -30,6 +30,12 @@ jobs:
       - name: "Test Integration"
         run: "dotnet test"
 
+      - name: "Provide Postgres Build"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "postgres-linux-x64"
+          path: "./Protoculture.Postgres.Embedded/postgres/linux/x86_64"
+
   windows-x86-64:
     name: "Windows x86-64"
     runs-on: "windows-latest"
@@ -52,6 +58,12 @@ jobs:
 
       - name: "Test Integration"
         run: "dotnet test"
+
+      - name: "Provide Postgres Build"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "postgres-windows-x64"
+          path: "./Protoculture.Postgres.Embedded/postgres/windows/x86_64"
 
   package:
     name: "Package"
