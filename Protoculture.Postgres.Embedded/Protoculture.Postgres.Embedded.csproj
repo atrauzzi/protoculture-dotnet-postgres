@@ -12,9 +12,17 @@
         <Authors>Alexander Trauzzi</Authors>
         <PackageDescription>Embedded-style PostgreSQL for .NET Applications</PackageDescription>
         <RepositoryUrl>https://github.com/atrauzzi/protoculture-dotnet-postgres</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <NoWarn>NU5100</NoWarn>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    </ItemGroup>
+    
     <ItemGroup>
         <Postgres Include="postgres/**/*.*" />
 
