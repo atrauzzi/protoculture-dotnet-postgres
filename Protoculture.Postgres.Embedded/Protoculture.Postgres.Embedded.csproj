@@ -29,7 +29,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <PackagePath>contentFiles/postgres</PackagePath>
-            <BuildAction>None</BuildAction>
+            <BuildAction>EmbeddedResource</BuildAction>
         </Content>
     </ItemGroup>
     
