@@ -98,11 +98,11 @@ jobs:
           name: "postgres-linux-x64"
           path: "Protoculture.Postgres.Embedded/postgres"
 
-      - name: "Download Windows X64 Build"
-        uses: "actions/download-artifact@v2"
-        with:
-          name: "postgres-windows-x64"
-          path: "Protoculture.Postgres.Embedded/postgres"
+#      - name: "Download Windows X64 Build"
+#        uses: "actions/download-artifact@v2"
+#        with:
+#          name: "postgres-windows-x64"
+#          path: "Protoculture.Postgres.Embedded/postgres"
 
       - name: "Show Builds"
         run: "ls -Al ./Protoculture.Postgres.Embedded/postgres/"
