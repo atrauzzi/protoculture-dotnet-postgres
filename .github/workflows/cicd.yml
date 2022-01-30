@@ -118,8 +118,8 @@ jobs:
 
       - name: "Authenticate to Nuget"
         env:
-          NUGET_TOKEN_USERNAME: "${{ secrets.NUGET_TOKEN_USERNAME }}"
-          NUGET_TOKEN: "${{ secrets.NUGET_TOKEN }}"
+          NUGET_TOKEN_USERNAME: "atrauzzi"
+          NUGET_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
           dotnet nuget add source \
             https://nuget.pkg.github.com/atrauzzi/index.json \
@@ -153,8 +153,9 @@ jobs:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
           DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
           DOTNET_NOLOGO: "1"
+          NUGET_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
           dotnet nuget push \
             "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.0.0.1-pre.nupkg" \
             --source https://nuget.pkg.github.com/atrauzzi/index.json \
-            --api-key ${{ secrets.NUGET_TOKEN }}
+            --api-key "${NUGET_TOKEN}"
