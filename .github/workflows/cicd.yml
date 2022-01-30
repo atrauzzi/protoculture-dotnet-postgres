@@ -137,7 +137,7 @@ jobs:
         run: |
           dotnet pack \
             --configuration="Release" \
-            -property:version="0.0.1-pre"
+            -property:version="0.1.1-pre"
 
       - name: "Show Package"
         run: "ls -Al ./Protoculture.Postgres.Embedded/bin/Release/"
