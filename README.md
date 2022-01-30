@@ -15,7 +15,7 @@
 ## Installing
 
 ```bash
-dotnet add PROJECT package Protoculture.Postgres.Embedded
+dotnet add package Protoculture.Postgres.Embedded
 ```
 
 This package can be found both on NuGet as well as over at its [package registry](https://github.com/atrauzzi/protoculture-dotnet-postgres/packages).
