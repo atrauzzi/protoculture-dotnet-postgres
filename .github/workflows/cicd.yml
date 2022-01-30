@@ -139,6 +139,10 @@ jobs:
             --configuration="Release" \
             -property:version="0.0.1-pre"
 
+      - name: "Show Package"
+        run: |
+          - ls -Al "./Protoculture.Postgres.Embedded/bin/Release/"
+
       - name: "Publish Package Artifact"
         uses: "actions/upload-artifact@v2"
         with:
