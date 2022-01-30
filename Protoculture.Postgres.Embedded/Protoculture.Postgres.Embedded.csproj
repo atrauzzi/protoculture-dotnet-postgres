@@ -29,6 +29,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
             <PackagePath>contentFiles/postgres</PackagePath>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
             <BuildAction>Content</BuildAction>
         </Content>
     </ItemGroup>
