@@ -1,5 +1,7 @@
 # see: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 # see: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+# see: https://docs.github.com/en/actions/learn-github-actions/environment-variables
+# see: https://docs.github.com/en/actions/learn-github-actions/expressions
 on:
   push:
     branches: [ "main" ]
