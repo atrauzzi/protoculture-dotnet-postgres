@@ -137,12 +137,11 @@ jobs:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
           DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
           DOTNET_NOLOGO: "1"
-          VERSION: "${{ GITHUB_REF }}-pre"
         working-directory: "./Protoculture.Postgres.Embedded"
         run: |
           dotnet pack \
             --configuration="Release" \
-            -property:version="${VERSION}"
+            -property:version="${GITHUB_REF_NAME}-pre"
 
       - name: "Show Package"
         run: "ls -Al ./Protoculture.Postgres.Embedded/bin/Release/"
