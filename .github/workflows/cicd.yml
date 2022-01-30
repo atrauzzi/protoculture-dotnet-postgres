@@ -156,5 +156,5 @@ jobs:
         run: |
           dotnet nuget push \
             "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.0.0.1-pre.nupkg" \
-            -k ${{ secrets.GITHUB_TOKEN }} \
+            -k ${{ secrets.GHPackagesToken }} \
             -s https://nuget.pkg.github.com/atrauzzi/index.json

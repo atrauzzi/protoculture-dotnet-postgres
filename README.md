@@ -11,7 +11,7 @@
   - Multi-platform and multi-architecture
   - Implements `IAsyncDisposable` and `IDisposable`
   - Focused on developer friendliness
-  
+
 ## Usage
 
 ```c#
