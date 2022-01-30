@@ -2,6 +2,7 @@
 # see: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 on:
   push:
+    branches: [ "main" ]
   release:
     types: [ "published" ]
 
@@ -10,6 +11,9 @@ jobs:
     name: "Linux x86-64"
     runs-on: "ubuntu-latest"
     steps:
+
+      - name: "Debug"
+        run: "echo ${{ github.event_name }}"
 
       - name: "Checkout"  
         uses: "actions/checkout@v2"
@@ -133,11 +137,12 @@ jobs:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
           DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
           DOTNET_NOLOGO: "1"
+          VERSION: "${{ GITHUB_REF }}-pre"
         working-directory: "./Protoculture.Postgres.Embedded"
         run: |
           dotnet pack \
             --configuration="Release" \
-            -property:version="0.1.1-pre"
+            -property:version="${VERSION}"
 
       - name: "Show Package"
         run: "ls -Al ./Protoculture.Postgres.Embedded/bin/Release/"
@@ -149,6 +154,7 @@ jobs:
           path: "./Protoculture.Postgres.Embedded/bin/Release/*.*nupkg"
 
       - name: "Push Personal Nuget Package"
+        if: ${{ github.event_name == 'release' }}
         env:
           DOTNET_CLI_TELEMETRY_OPTOUT: "1"
           DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
@@ -156,6 +162,6 @@ jobs:
           NUGET_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
           dotnet nuget push \
-            "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.0.1.1-pre.nupkg" \
+            "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.*.nupkg" \
             --source https://nuget.pkg.github.com/atrauzzi/index.json \
             --api-key "${NUGET_TOKEN}"
