@@ -17,6 +17,8 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <NoWarn>NU5100</NoWarn>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0.html</PackageLicenseUrl>
     </PropertyGroup>
 
     <ItemGroup>
