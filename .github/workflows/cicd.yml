@@ -147,7 +147,7 @@ jobs:
         uses: "actions/upload-artifact@v2"
         with:
           name: "release"
-          path: "./Protoculture.Postgres.Embedded/bin/Release/.*nupkg"
+          path: "./Protoculture.Postgres.Embedded/bin/Release/*.*nupkg"
 
       - name: "Push Personal Nuget Package"
         env:
