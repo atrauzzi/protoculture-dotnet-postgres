@@ -25,11 +25,10 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Postgres Include="postgres/**/*.*" />
-
-        <Content Include="postgres/**/*.*" CopyToPublishDirectory="PreserveNewest">
+        <Content Include="postgres/**/*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Pack>true</Pack>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <PackagePath>contentFiles</PackagePath>
         </Content>
     </ItemGroup>
     
