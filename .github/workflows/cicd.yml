@@ -115,18 +115,18 @@ jobs:
           DOTNET_NOLOGO: "1"
         with:
           dotnet-version: "6.0.x"
-      
-#      - name: "Authenticate to Nuget"
-#        env:
-#          NUGET_TOKEN_USERNAME: "atrauzzi"
-#          NUGET_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-#        run: |
-#          dotnet nuget add source \
-#            https://nuget.pkg.github.com/atrauzzi/index.json \
-#            --store-password-in-clear-text \
-#            -n "github-atrauzzi" \
-#            -u "${NUGET_TOKEN_USERNAME}" \
-#            -p "${NUGET_TOKEN}"
+
+      - name: "Authenticate to Nuget"
+        env:
+          NUGET_TOKEN_USERNAME: "${{ secrets.NUGET_TOKEN_USERNAME }}"
+          NUGET_TOKEN: "${{ secrets.NUGET_TOKEN }}"
+        run: |
+          dotnet nuget add source \
+            https://nuget.pkg.github.com/atrauzzi/index.json \
+            --store-password-in-clear-text \
+            --name github-atrauzzi \
+            --username ${NUGET_TOKEN_USERNAME} \
+            --password ${NUGET_TOKEN}
 
       - name: "Build and Pack"
         env:
@@ -156,5 +156,5 @@ jobs:
         run: |
           dotnet nuget push \
             "./Protoculture.Postgres.Embedded/bin/Release/Protoculture.Postgres.Embedded.0.0.1-pre.nupkg" \
-            -k ${{ secrets.GHPackagesToken }} \
-            -s https://nuget.pkg.github.com/atrauzzi/index.json
+            --source https://nuget.pkg.github.com/atrauzzi/index.json \
+            --api-key ${{ secrets.NUGET_TOKEN }}
