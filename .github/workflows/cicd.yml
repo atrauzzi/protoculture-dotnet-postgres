@@ -7,13 +7,18 @@ on:
     types: [ "published" ]
 
 jobs:
+
+  build-information:
+    name: "Build Information"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Output Build Information"
+        run: "echo '${{ toJSON(github) }}'"
+  
   linux-x86-64:
     name: "Linux x86-64"
     runs-on: "ubuntu-latest"
     steps:
-
-      - name: "Debug"
-        run: "echo '${{ toJSON(github) }}'"
 
       - name: "Checkout"  
         uses: "actions/checkout@v2"
