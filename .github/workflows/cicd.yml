@@ -150,7 +150,7 @@ jobs:
         run: |
           dotnet pack \
             --configuration="Release" \
-            -property:version="${GITHUB_REF_NAME}-pre"
+            -property:version="${GITHUB_REF_NAME}"
 
       - name: "Show Package"
         run: "ls -Al ./Protoculture.Postgres.Embedded/bin/Release/"
