@@ -13,7 +13,7 @@ jobs:
     steps:
 
       - name: "Debug"
-        run: "echo ${{ github }}"
+        run: "echo ${{ toJSON(github) }}"
 
       - name: "Checkout"  
         uses: "actions/checkout@v2"
