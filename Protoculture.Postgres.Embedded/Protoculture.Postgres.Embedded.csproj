@@ -28,7 +28,7 @@
         <Content Include="postgres/**/*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            <PackagePath>contentFiles/postgres</PackagePath>
+            <PackagePath>contentFiles/any/any/postgres</PackagePath>
             <PackageCopyToOutput>true</PackageCopyToOutput>
             <BuildAction>Content</BuildAction>
         </Content>
