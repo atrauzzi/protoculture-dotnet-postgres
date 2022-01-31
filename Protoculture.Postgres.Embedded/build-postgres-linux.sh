@@ -30,4 +30,3 @@ make install-strip
 mkdir -p "${scriptDir}/postgres/linux"
 
 mv "${outputDir}" "${scriptDir}/postgres/linux/${cpuArchitecture}"
-rm -rf "${scriptDir}/postgres/linux/${cpuArchitecture}/include/"
