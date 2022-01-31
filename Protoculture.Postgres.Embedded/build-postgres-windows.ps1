@@ -27,6 +27,7 @@ Invoke-WebRequest -Uri "${postgresSource}/${postgresArchive}" -OutFile "${postgr
 Expand-Archive -Path "${postgresArchive}"
 Set-Location -Path ".\postgresql-${postgresVersion}-windows-x64-binaries\pgsql"
 Move-Item ".\bin" "${scriptDir}\postgres\windows\x86_64"
+Move-Item ".\include" "${scriptDir}\postgres\windows\x86_64"
 Move-Item ".\lib" "${scriptDir}\postgres\windows\x86_64"
 Move-Item ".\share" "${scriptDir}\postgres\windows\x86_64"
 
