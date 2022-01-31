@@ -2,9 +2,9 @@
 # see: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 # see: https://docs.github.com/en/actions/learn-github-actions/environment-variables
 # see: https://docs.github.com/en/actions/learn-github-actions/expressions
+
+name: "Publish"
 on:
-  push:
-    branches: [ "main" ]
   release:
     types: [ "published" ]
 
