@@ -76,6 +76,11 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             RedirectStandardError = true,
         };
 
+        if (Configuration.RequiresLdPath)
+        {
+            initdbProcessStartInfo.Environment.Add("LD_LIBRARY_PATH", Configuration.LibPath);
+        }
+        
         var initdbProcess = Process.Start(initdbProcessStartInfo);
 
         if (initdbProcess == null)
@@ -141,7 +146,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             return;
         }
 
-        var pgctlProcess = Process.Start(new ProcessStartInfo
+        var pgctlProcessInfo = new ProcessStartInfo
         {
             FileName = Configuration.ExecutablePath(PostgresExecutable.Pgctl),
             Arguments = string.Join(" ", new List<string>
@@ -154,8 +159,15 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             CreateNoWindow = true,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
-        });
+        };
 
+        if (Configuration.RequiresLdPath)
+        {
+            pgctlProcessInfo.Environment.Add("LD_LIBRARY_PATH", Configuration.LibPath);
+        }
+        
+        var pgctlProcess = Process.Start(pgctlProcessInfo);
+       
         await pgctlProcess!.WaitForExitAsync();
         await shutdown.Task;
     }
