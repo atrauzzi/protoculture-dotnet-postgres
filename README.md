@@ -33,7 +33,13 @@ This package can be found both on NuGet as well as over at its [package registry
 
 ## Meta
 
-This project was started in January of 2022. My hope is that it can evolve into a 1st class option for all .NET developers who want to embed postgres in their applications.
+This project was started in January of 2022. 
+
+### Purpose
+
+The first use case for this project is as an easy zero-ops solution for integration testing in .NET projects. 
+
+My hope is that it can grow into a 1st class option for any .NET developers looking to embed postgres in their applications.
 
 ### How does it work?
 
