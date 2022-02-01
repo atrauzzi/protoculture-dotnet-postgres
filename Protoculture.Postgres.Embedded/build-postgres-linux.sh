@@ -20,6 +20,7 @@ cd "postgres-REL_${postgresVersion}"
 chmod +x "configure"
 
 ./configure \
+  --disable-rpath \
   --prefix="${outputDir}" \
   --with-uuid="ossp"
 
