@@ -73,9 +73,9 @@ jobs:
       - name: "Build Postgres"
         run: "./Protoculture.Postgres.Embedded/build-postgres-windows.ps1"
   
-       - name: "Test Integration"
-         continue-on-error: true
-         run: "dotnet test"
+      - name: "Test Integration"
+        continue-on-error: true
+        run: "dotnet test"
 
       - name: "Provide Postgres Build"
         uses: "actions/upload-artifact@v2"
