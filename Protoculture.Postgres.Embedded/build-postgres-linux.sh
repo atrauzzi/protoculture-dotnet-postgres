@@ -24,6 +24,8 @@ chmod +x "configure"
   --prefix="${outputDir}" \
   --with-uuid="ossp"
 
+export LD_RUN_PATH='$ORIGIN/../lib'
+
 make
 make check
 make install-strip
