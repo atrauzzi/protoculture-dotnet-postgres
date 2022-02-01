@@ -24,10 +24,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
     
     public EmbeddedPostgres()
     {
-        Configuration = new()
-        {
-            Transient = true,
-        };
+        Configuration = new();
     }
     
     public EmbeddedPostgres(EmbeddedPostgresConfiguration configuration)

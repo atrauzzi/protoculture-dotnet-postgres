@@ -52,7 +52,10 @@ public class EmbeddedPostgresTests
     {
         string basePath;
         
-        await using (var server = new EmbeddedPostgres())
+        await using (var server = new EmbeddedPostgres(new()
+        {
+            Transient = true,
+        }))
         {
             await server.Start();
 
