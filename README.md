@@ -1,7 +1,7 @@
 ![protoculture](protoculture.png)
 # Postgres Embedded for .NET
 
-![Build Status](https://github.com/atrauzzi/protoculture-dotnet-postgres/actions/workflows/cicd.yml/badge.svg)
+![Build Status](https://github.com/atrauzzi/protoculture-dotnet-postgres/actions/workflows/publish.yml/badge.svg)
 
 ## Features
 
