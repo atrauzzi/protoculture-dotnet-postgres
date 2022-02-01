@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using static System.IO.Path;
 
@@ -6,6 +7,10 @@ namespace Protoculture.Postgres.Embedded;
 
 public static class Util
 {
+    public static char Slash => DirectorySeparatorChar;
+    
+    public static string AssemblyPath => GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new("Unable to infer assembly location.");
+    
     public static string CurrentOperatingSystem
     {
         get
@@ -34,6 +39,6 @@ public static class Util
     {
         true => path,
         false when string.IsNullOrEmpty(path) => basePath,
-        false => $"{basePath}{DirectorySeparatorChar}{path}",
+        false => $"{basePath}{Slash}{path}",
     };
 }

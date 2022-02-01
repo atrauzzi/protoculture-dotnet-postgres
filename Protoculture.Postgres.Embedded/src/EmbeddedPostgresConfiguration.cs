@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using static System.IO.Path;
 using static Protoculture.Postgres.Embedded.Util;
 
@@ -9,9 +8,11 @@ public class EmbeddedPostgresConfiguration
 {
     public bool ShowOutput { get; init; } = true;
 
-    public string ResourcesRoot { get; init; } = $"{GetDirectoryName(Assembly.GetExecutingAssembly().Location)}{DirectorySeparatorChar}postgres{DirectorySeparatorChar}{CurrentOperatingSystem}{DirectorySeparatorChar}{CurrentCpuArchitecture}";
+    public string ResourcesRoot { get; init; } = $"{AssemblyPath}{Slash}postgres{Slash}{CurrentOperatingSystem}{Slash}{CurrentCpuArchitecture}";
 
-    public string ExecutablePath(PostgresExecutable postgresExecutable) => $"{ResourcesRoot}{DirectorySeparatorChar}bin{DirectorySeparatorChar}{postgresExecutable.ExecutableName()}";
+    public string LibPath => $"{ResourcesRoot}{Slash}lib";
+    
+    public string ExecutablePath(PostgresExecutable postgresExecutable) => $"{ResourcesRoot}{Slash}bin{Slash}{postgresExecutable.ExecutableName()}";
 
     public string BasePath { get; init; } = $"{GetTempPath()}protoculture-postgres-embedded-{Guid.NewGuid()}";
 
@@ -37,11 +38,13 @@ public class EmbeddedPostgresConfiguration
         init => socketPath = value;
     }
     
-    public string SocketFilePath => $"{SocketPath}{DirectorySeparatorChar}.s.PGSQL.{Port}";
+    public string SocketFilePath => $"{SocketPath}{Slash}.s.PGSQL.{Port}";
 
     public string SocketConnectionString => $"Host={SocketPath};Port={Port};Database=postgres";
 
     public string TcpConnectionString => $"Host=127.0.0.1;Port={Port};Database=postgres";
     
     public bool SupportsSockets => CurrentOperatingSystem != "windows";
+
+    public bool RequiresLdPath => CurrentOperatingSystem == "linux";
 }

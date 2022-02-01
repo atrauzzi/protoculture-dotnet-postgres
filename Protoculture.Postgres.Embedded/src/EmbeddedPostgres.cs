@@ -100,7 +100,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         {
             arguments.Add($"-k {Configuration.SocketPath}");
         }
-        
+
         var serverProcessStartInfo = new ProcessStartInfo
         {
             FileName = Configuration.ExecutablePath(PostgresExecutable.Postgres),
@@ -110,6 +110,11 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             RedirectStandardOutput = true,
             RedirectStandardError = true,
         };
+
+        if (Configuration.RequiresLdPath)
+        {
+            serverProcessStartInfo.Environment.Add("LD_LIBRARY_PATH", Configuration.LibPath);
+        }
         
         serverProcess = new()
         {
