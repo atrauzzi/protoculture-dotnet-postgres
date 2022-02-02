@@ -170,7 +170,7 @@ jobs:
             --api-key "${NUGET_TOKEN}"
 
       - name: "Push Package to nuget.org"
-        if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' && (! github.event.prerelase) }}
         env:
           NUGET_TOKEN: "${{ secrets.NUGET_TOKEN }}"
         run: |
