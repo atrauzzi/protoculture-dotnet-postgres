@@ -115,7 +115,7 @@ jobs:
           path: "Protoculture.Postgres.Embedded/build/postgres"
 
       - name: "Show Builds"
-        run: "ls -Al ./Protoculture.Postgres.Embedded/postgres/"
+        run: "ls -Al ./Protoculture.Postgres.Embedded/build/postgres/"
 
       - name: "Setup .NET"
         uses: "actions/setup-dotnet@v1"
