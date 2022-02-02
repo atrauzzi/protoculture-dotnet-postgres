@@ -450,5 +450,5 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-/Protoculture.Postgres.Embedded/postgres
-/Protoculture.Postgres.Embedded/postgres-build
+/Protoculture.Postgres.Embedded/build/postgres
+/Protoculture.Postgres.Embedded/build/postgres-build

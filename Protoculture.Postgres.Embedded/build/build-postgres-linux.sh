@@ -4,11 +4,15 @@ cpuArchitecture=$(uname -p)
 postgresSource="https://github.com/postgres/postgres/archive/refs/tags"
 scriptDir="$(realpath $(dirname ${0}))"
 buildDir="${scriptDir}/postgres-build"
-outputDir="${buildDir}/linux"
+postgresBuildsDir="${scriptDir}/postgres"
+outputDir="${postgresBuildsDir}/linux/${cpuArchitecture}"
 postgresVersion="${1:-"14_1"}"
 postgresArchive="REL_${postgresVersion}.zip"
 
 rm -rf "${buildDir}"
+rm -rf "${postgresBuildsDir}"
+
+mkdir -p "${outputDir}"
 
 mkdir "${buildDir}"
 cd "${buildDir}"
@@ -30,6 +34,5 @@ make
 make check
 make install-strip
 
-mkdir -p "${scriptDir}/postgres/linux"
-
-mv "${outputDir}" "${scriptDir}/postgres/linux/${cpuArchitecture}"
+cd "${postgresBuildsDir}"
+zip -r "linux-${cpuArchitecture}.zip" .

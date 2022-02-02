@@ -25,12 +25,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="postgres/**/*.*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-            <PackagePath>contentFiles/any/any/postgres</PackagePath>
-            <PackageCopyToOutput>true</PackageCopyToOutput>
-            <BuildAction>Content</BuildAction>
+        <Content Include="build/Protoculture.Postgres.Embedded.targets">
+            <PackagePath>/</PackagePath>
+        </Content>
+        <Content Include="build/postgres/*.zip">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+            <PackagePath>/postgres</PackagePath>
+            <PackageCopyToOutput>false</PackageCopyToOutput>
+            <BuildAction>None</BuildAction>
         </Content>
     </ItemGroup>
     

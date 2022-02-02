@@ -9,7 +9,9 @@ param(
 $cpuArchitecture=$env:PROCESSOR_ARCHITECTURE
 $postgresSource="https://get.enterprisedb.com/postgresql"
 $scriptDir="$PSScriptRoot"
-$buildDir="${scriptDir}/postgres-build"
+$buildDir="${scriptDir}\postgres-build"
+$postgresBuildsDir="${scriptDir}\postgres"
+$outputDir="${postgresBuildsDir}\windows\${cpuArchitecture}"
 $postgresArchive="postgresql-${postgresVersion}-windows-x64-binaries.zip"
 
 if ("${cpuArchitecture}" -ne "AMD64")
@@ -23,12 +25,16 @@ New-Item -Type Directory -Path "${scriptDir}\postgres\windows\${cpuArchitecture}
 New-Item -Type Directory -Path "${buildDir}"
 
 Set-Location -Path "${buildDir}"
-Invoke-WebRequest -Uri "${postgresSource}/${postgresArchive}" -OutFile "${postgresArchive}"
+Invoke-WebRequest -Uri "${postgresSource}\${postgresArchive}" -OutFile "${postgresArchive}"
 Expand-Archive -Path "${postgresArchive}"
 Set-Location -Path ".\postgresql-${postgresVersion}-windows-x64-binaries\pgsql"
-Move-Item ".\bin" "${scriptDir}\postgres\windows\x86_64"
-Move-Item ".\include" "${scriptDir}\postgres\windows\x86_64"
-Move-Item ".\lib" "${scriptDir}\postgres\windows\x86_64"
-Move-Item ".\share" "${scriptDir}\postgres\windows\x86_64"
+Move-Item ".\bin" "${outputDir}"
+Move-Item ".\include" "${outputDir}"
+Move-Item ".\lib" "${outputDir}"
+Move-Item ".\share" "${outputDir}"
+
+Set-Location -Path "${postgresBuildsDir}\windows"
+
+Compress-Archive -Path "." -DestinationPath "${postgresBuildsDir}\windows-${cpuArchitecture}.zip"
 
 Set-Location -Path "${scriptDir}"

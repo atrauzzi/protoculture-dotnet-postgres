@@ -49,7 +49,7 @@ jobs:
         uses: "actions/upload-artifact@v2"
         with:
           name: "postgres-linux-x64"
-          path: "./Protoculture.Postgres.Embedded/postgres"
+          path: "./Protoculture.Postgres.Embedded/build/postgres/*.zip"
 
   # see: https://github.com/npgsql/npgsql/blob/main/.github/workflows/build.yml#L136
   windows-x86-64:
@@ -81,7 +81,7 @@ jobs:
         uses: "actions/upload-artifact@v2"
         with:
           name: "postgres-windows-x64"
-          path: "./Protoculture.Postgres.Embedded/postgres"
+          path: "./Protoculture.Postgres.Embedded/build/postgres/*.zip"
 
   package:
     name: "Package"
@@ -99,13 +99,13 @@ jobs:
         uses: "actions/download-artifact@v2"
         with:
           name: "postgres-linux-x64"
-          path: "Protoculture.Postgres.Embedded/postgres"
+          path: "Protoculture.Postgres.Embedded/build/postgres"
 
       - name: "Download Windows X64 Build"
         uses: "actions/download-artifact@v2"
         with:
           name: "postgres-windows-x64"
-          path: "Protoculture.Postgres.Embedded/postgres"
+          path: "Protoculture.Postgres.Embedded/build/postgres"
 
       - name: "Show Builds"
         run: "ls -Al ./Protoculture.Postgres.Embedded/postgres/"
@@ -155,7 +155,7 @@ jobs:
             --api-key "${NUGET_TOKEN}"
 
       - name: "Push Package to nuget.org"
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
         env:
           NUGET_TOKEN: "${{ secrets.NUGET_TOKEN }}"
         run: |

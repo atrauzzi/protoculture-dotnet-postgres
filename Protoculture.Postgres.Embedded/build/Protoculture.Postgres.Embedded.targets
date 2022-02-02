@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    
+    <ItemGroup>
+        <PostgresBinaries Include="$(MSBuildThisFileDirectory)/postgres/*.zip" />
+    </ItemGroup>
+    
+    <Target Name="UnpackPostgresBinaries" BeforeTargets="Build">
+        <Unzip
+            SourceFiles="%(PostgresBinaries.Identity)"
+            DestinationFolder="$(OutDir)/postgres"
+        />
+    </Target>
+</Project>
