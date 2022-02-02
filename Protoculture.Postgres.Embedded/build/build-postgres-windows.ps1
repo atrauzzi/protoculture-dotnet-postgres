@@ -7,12 +7,6 @@ param(
 )
 
 $cpuArchitecture=$env:PROCESSOR_ARCHITECTURE
-$postgresSource="https://get.enterprisedb.com/postgresql"
-$scriptDir="$PSScriptRoot"
-$buildDir="${scriptDir}\postgres-build"
-$postgresBuildsDir="${scriptDir}\postgres"
-$outputDir="${postgresBuildsDir}\windows\${cpuArchitecture}"
-$postgresArchive="postgresql-${postgresVersion}-windows-x64-binaries.zip"
 
 if ("${cpuArchitecture}" -ne "AMD64")
 {
@@ -20,6 +14,13 @@ if ("${cpuArchitecture}" -ne "AMD64")
 }
 
 $cpuArchitecture="x86_64"
+
+$postgresSource="https://get.enterprisedb.com/postgresql"
+$scriptDir="$PSScriptRoot"
+$buildDir="${scriptDir}\postgres-build"
+$postgresBuildsDir="${scriptDir}\postgres"
+$outputDir="${postgresBuildsDir}\windows\${cpuArchitecture}"
+$postgresArchive="postgresql-${postgresVersion}-windows-x64-binaries.zip"
 
 New-Item -Type Directory -Path "${scriptDir}\postgres\windows\${cpuArchitecture}"
 New-Item -Type Directory -Path "${buildDir}"
