@@ -26,7 +26,7 @@
 
     <ItemGroup>
         <Content Include="build/Protoculture.Postgres.Embedded.targets">
-            <PackagePath>/</PackagePath>
+            <PackagePath>/build</PackagePath>
         </Content>
         <Content Include="build/postgres/*.zip">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>

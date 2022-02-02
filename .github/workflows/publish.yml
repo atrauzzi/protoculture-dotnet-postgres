@@ -44,7 +44,12 @@ jobs:
       - name: "Build Postgres"
         run: "./Protoculture.Postgres.Embedded/build/build-postgres-linux.sh"
 
-      - name: "Test Integration"
+      - name: "Build for Test"
+        working-directory: "./Protoculture.Postgres.Embedded"
+        run: "dotnet build"
+
+      - name: "Build Test"
+        working-directory: "./Protoculture.Postgres.Embedded.Test"
         run: "dotnet test"
 
       - name: "Provide Postgres Build"

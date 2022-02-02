@@ -2,13 +2,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     
     <ItemGroup>
-        <PostgresBinaries Include="$(MSBuildThisFileDirectory)/postgres/*.zip" />
+        <PostgresBinaries Include="$(MSBuildThisFileDirectory)/../postgres/*.zip" />
     </ItemGroup>
     
     <Target Name="UnpackPostgresBinaries" BeforeTargets="Build">
+        <Message Text="Unpacking postgres binaries..." Importance="normal"/>
         <Unzip
             SourceFiles="%(PostgresBinaries.Identity)"
-            DestinationFolder="$(OutDir)/postgres"
+            DestinationFolder="$(OutputPath)/postgres"
         />
+        <Exec Command="chmod +x $(OutputPath)postgres/linux/x86_64/bin/*" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
     </Target>
 </Project>

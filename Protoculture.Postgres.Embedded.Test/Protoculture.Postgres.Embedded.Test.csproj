@@ -7,7 +7,7 @@
         <RootNamespace>Protoculture.Postgres.Embedded.Test</RootNamespace>
         <Configurations>Debug</Configurations>
         <IsPackable>false</IsPackable>
-        <RestoreSources>../Protoculture.Postgres.Embedded/bin/Release</RestoreSources>
+        <RestoreAdditionalProjectSources>../Protoculture.Postgres.Embedded/bin/Release</RestoreAdditionalProjectSources>
     </PropertyGroup>
 
     <ItemGroup>
