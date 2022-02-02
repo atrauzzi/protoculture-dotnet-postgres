@@ -46,7 +46,7 @@ jobs:
 
       - name: "Build for Test"
         working-directory: "./Protoculture.Postgres.Embedded"
-        run: "dotnet pack --configuration=Release
+        run: "dotnet pack --configuration=Release"
 
       - name: "Build Test"
         working-directory: "./Protoculture.Postgres.Embedded.Test"
