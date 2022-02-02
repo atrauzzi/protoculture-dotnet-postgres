@@ -34,5 +34,7 @@ make
 make check
 make install-strip
 
+rm -rf "${outputDir}/include"
+
 cd "${postgresBuildsDir}"
 zip -r "linux-${cpuArchitecture}.zip" .
