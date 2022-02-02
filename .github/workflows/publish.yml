@@ -134,7 +134,15 @@ jobs:
             --username ${NUGET_TOKEN_USERNAME} \
             --password ${NUGET_TOKEN}
 
+      - name: "Test Build and Pack"
+        if: ${{ github.event_name == 'push' }}
+        working-directory: "./Protoculture.Postgres.Embedded"
+        run: |
+          dotnet pack \
+            --configuration="Release"
+
       - name: "Build and Pack"
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
         working-directory: "./Protoculture.Postgres.Embedded"
         run: |
           dotnet pack \
