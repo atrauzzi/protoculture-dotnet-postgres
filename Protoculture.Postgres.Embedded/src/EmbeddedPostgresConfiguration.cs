@@ -58,6 +58,4 @@ public class EmbeddedPostgresConfiguration
     public DbConnectionStringBuilder BestConnectionString => UseSockets
         ? SocketConnectionString
         : TcpConnectionString;
-
-    public bool RequiresLdPath => CurrentOperatingSystem == "linux";
 }
