@@ -2,6 +2,8 @@
 # Postgres Embedded for .NET
 
 ![Build Status](https://github.com/atrauzzi/protoculture-dotnet-postgres/actions/workflows/publish.yml/badge.svg)
+[![nuget](https://img.shields.io/nuget/v/Protoculture.Postgres.Embedded)](https://www.nuget.org/packages/Protoculture.Postgres.Embedded)
+
 
 ## Features
 
@@ -18,7 +20,7 @@
 dotnet add package Protoculture.Postgres.Embedded
 ```
 
-This package can be found both on NuGet as well as over at its [package registry](https://github.com/atrauzzi/protoculture-dotnet-postgres/packages).
+This package can be found both [on NuGet](https://www.nuget.org/packages/Protoculture.Postgres.Embedded) as well as over at its [package registry](https://github.com/atrauzzi/protoculture-dotnet-postgres/packages).
 
 > note: If you're running on Windows, you will need to make sure the machine you're running on has [this VC redist](https://aka.ms/vs/17/release/vc_redist.x64.exe) installed (`vcruntime140.dll`).
 
