@@ -3,7 +3,7 @@
 
 ![Build Status](https://github.com/atrauzzi/protoculture-dotnet-postgres/actions/workflows/publish.yml/badge.svg)
 [![nuget](https://img.shields.io/nuget/v/Protoculture.Postgres.Embedded)](https://www.nuget.org/packages/Protoculture.Postgres.Embedded)
-
+[![GitHub license](https://img.shields.io/github/license/atrauzzi/protoculture-dotnet-postgres)](https://github.com/atrauzzi/protoculture-dotnet-postgres/blob/main/LICENSE.txt)
 
 ## Features
 
