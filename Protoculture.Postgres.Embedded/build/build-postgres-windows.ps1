@@ -1,8 +1,4 @@
-﻿# Hi Windows user.  Make sure you have vsredist installed.
-# windows 11 vcruntime140.dll
-# https://aka.ms/vs/17/release/vc_redist.x64.exe
-#
-param(
+﻿param(
     $postgresVersion = "14.1-1"
 )
 

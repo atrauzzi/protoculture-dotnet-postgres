@@ -20,6 +20,8 @@ dotnet add package Protoculture.Postgres.Embedded
 
 This package can be found both on NuGet as well as over at its [package registry](https://github.com/atrauzzi/protoculture-dotnet-postgres/packages).
 
+> note: If you're running on Windows, you will need to make sure the machine you're running on has [this VC redist](https://aka.ms/vs/17/release/vc_redist.x64.exe) installed (`vcruntime140.dll`).
+
 ## Usage
 
 ```c#
@@ -30,6 +32,8 @@ This package can be found both on NuGet as well as over at its [package registry
     var socketConnectionString = postgres.Configuration.SocketConnectionString;
     var tcpConnectionString = postgres.Configuration.TcpConnectionString;
 ```
+
+> note: The embedded postgres server runs as the same user as your application, this means that you cannot run as administrator as postgres does not support it.
 
 ## Meta
 
@@ -43,7 +47,7 @@ My hope is that it can grow into a 1st class option for any .NET developers look
 
 ### How does it work?
 
-Nothing too magical, postgres binaries for each supported platform are statically distributed with this package. A thin layer of C# code provides a bridge for configuration, conventions and process lifecycle.
+Nothing too magical, postgres binaries for each supported platform are distributed with this package. A thin layer of C# code provides a bridge for configuration, conventions and process lifecycle.
 
 ### Inspiration
 
