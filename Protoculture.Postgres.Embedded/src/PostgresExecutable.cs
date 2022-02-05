@@ -8,6 +8,7 @@ public enum PostgresExecutable
     Postgres = 1,
     Initdb,
     Pgctl,
+    Createdb,
 }
 
 public static class PostgresExecutableExtensions

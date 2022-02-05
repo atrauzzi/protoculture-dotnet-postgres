@@ -64,4 +64,28 @@ public class EmbeddedPostgresTests
 
         Directory.Exists(basePath).Should().BeFalse();
     }
+
+    [Fact]
+    public async void ItShouldBeAbleToCreateDatabases()
+    {
+        await using var server = new EmbeddedPostgres(new()
+        {
+            Transient = true,
+        });
+
+        await server.Start();
+        
+        var connectionString = server.Configuration.SupportsSockets
+            ? server.Configuration.SocketConnectionString
+            : server.Configuration.TcpConnectionString;
+
+        await using var connection = new NpgsqlConnection(connectionString);
+        await using var command = new NpgsqlCommand("select count(*) from pg_database where datname='semper_ubi_sub_ubi'", connection);
+
+        await server.CreateDatabase("semper_ubi_sub_ubi");
+        await connection.OpenAsync();
+        var result = await command.ExecuteScalarAsync();
+
+        result.Should().BeOfType<long>().Subject.Should().Be(1);
+    }
 }
