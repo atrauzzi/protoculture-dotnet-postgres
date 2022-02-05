@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Protoculture.Postgres.Embedded;
 
-public static class CommandUtil
+public static class CommandUtils
 {
     public static async Task<int> Run(string executable, IEnumerable<string> arguments, IDictionary<string,string?>? environment = null)
     {

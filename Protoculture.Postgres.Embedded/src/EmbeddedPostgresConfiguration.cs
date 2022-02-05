@@ -1,6 +1,7 @@
 using System;
+using System.Data.Common;
 using static System.IO.Path;
-using static Protoculture.Postgres.Embedded.Util;
+using static Protoculture.Postgres.Embedded.EnvironmentUtils;
 
 namespace Protoculture.Postgres.Embedded;
 
@@ -21,6 +22,8 @@ public class EmbeddedPostgresConfiguration
     public bool Transient { get; init; }
 
     public bool TerminateWhenDisposed { get; init; } = true;
+
+    public bool UseSockets { get; init; } = CurrentOperatingSystem != "windows";
     
     private readonly string dataPath = "data";
 
@@ -40,11 +43,21 @@ public class EmbeddedPostgresConfiguration
     
     public string SocketFilePath => $"{SocketPath}{Slash}.s.PGSQL.{Port}";
 
-    public string SocketConnectionString => $"Host={SocketPath};Port={Port};Database=postgres";
+    public DbConnectionStringBuilder SocketConnectionString => new()
+    {
+        { "Host", SocketPath },
+        { "Port", Port },
+    };
 
-    public string TcpConnectionString => $"Host=127.0.0.1;Port={Port};Database=postgres";
-    
-    public bool SupportsSockets => CurrentOperatingSystem != "windows";
+    public DbConnectionStringBuilder TcpConnectionString => new()
+    {
+        { "Host", "127.0.0.1" },
+        { "Port", Port },
+    };
+
+    public DbConnectionStringBuilder BestConnectionString => UseSockets
+        ? SocketConnectionString
+        : TcpConnectionString;
 
     public bool RequiresLdPath => CurrentOperatingSystem == "linux";
 }

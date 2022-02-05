@@ -1,5 +1,5 @@
 using System;
-using static Protoculture.Postgres.Embedded.Util;
+using static Protoculture.Postgres.Embedded.EnvironmentUtils;
 
 namespace Protoculture.Postgres.Embedded;
 

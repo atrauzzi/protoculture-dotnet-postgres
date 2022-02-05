@@ -5,7 +5,7 @@ using static System.IO.Path;
 
 namespace Protoculture.Postgres.Embedded;
 
-public static class Util
+public static class EnvironmentUtils
 {
     public static char Slash => DirectorySeparatorChar;
     

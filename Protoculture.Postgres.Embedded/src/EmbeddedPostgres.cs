@@ -59,7 +59,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
     {
         EnsureRunning();
 
-        await CommandUtil.Run(Configuration.ExecutablePath(PostgresExecutable.Pgctl), new List<string>
+        await CommandUtils.Run(Configuration.ExecutablePath(PostgresExecutable.Pgctl), new List<string>
         {
             $"-D {Configuration.DataPath}",
             "-m fast",
@@ -78,21 +78,21 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             $"--port {Configuration.Port}",
         };
         
-        if (Configuration.SupportsSockets)
+        if (Configuration.UseSockets)
         {
             arguments.Add($"--host {Configuration.SocketPath}");
         }
 
         arguments.Add(name);
 
-        await CommandUtil.Run(Configuration.ExecutablePath(PostgresExecutable.Createdb), arguments);
+        await CommandUtils.Run(Configuration.ExecutablePath(PostgresExecutable.Createdb), arguments);
     }
 
     private async Task InitDb()
     {
         Directory.CreateDirectory(Configuration.DataPath);
 
-        await CommandUtil.Run(
+        await CommandUtils.Run(
             Configuration.ExecutablePath(PostgresExecutable.Initdb), 
             new List<string>
             {
@@ -115,7 +115,7 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
             $"-p {Configuration.Port}",
         };
 
-        if (Configuration.SupportsSockets)
+        if (Configuration.UseSockets)
         {
             arguments.Add($"-k {Configuration.SocketPath}");
         }
