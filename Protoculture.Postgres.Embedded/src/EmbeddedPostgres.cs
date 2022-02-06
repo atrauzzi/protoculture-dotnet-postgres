@@ -90,6 +90,11 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
 
     private async Task InitDb()
     {
+        if (Directory.Exists(Configuration.DataPath))
+        {
+            return;
+        }
+        
         Directory.CreateDirectory(Configuration.DataPath);
 
         await CommandUtils.Run(
