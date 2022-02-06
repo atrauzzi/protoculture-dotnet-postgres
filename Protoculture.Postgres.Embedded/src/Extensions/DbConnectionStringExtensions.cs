@@ -10,4 +10,18 @@ public static class DbConnectionStringExtensions
         
         return connectionStringBuilder;
     }
+
+    public static DbConnectionStringBuilder IncludeErrorDetail(this DbConnectionStringBuilder connectionStringBuilder, string database)
+    {
+        connectionStringBuilder.Add("Include Error Detail", database);
+        
+        return connectionStringBuilder;
+    }
+    
+    public static DbConnectionStringBuilder LogParameters(this DbConnectionStringBuilder connectionStringBuilder, string database)
+    {
+        connectionStringBuilder.Add("Log Parameters", database);
+        
+        return connectionStringBuilder;
+    }
 }
