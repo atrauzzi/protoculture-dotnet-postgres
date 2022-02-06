@@ -11,16 +11,16 @@ public static class DbConnectionStringExtensions
         return connectionStringBuilder;
     }
 
-    public static DbConnectionStringBuilder IncludeErrorDetail(this DbConnectionStringBuilder connectionStringBuilder, string database)
+    public static DbConnectionStringBuilder IncludeErrorDetail(this DbConnectionStringBuilder connectionStringBuilder)
     {
-        connectionStringBuilder.Add("Include Error Detail", database);
+        connectionStringBuilder.Add("Include Error Detail", "");
         
         return connectionStringBuilder;
     }
     
-    public static DbConnectionStringBuilder LogParameters(this DbConnectionStringBuilder connectionStringBuilder, string database)
+    public static DbConnectionStringBuilder LogParameters(this DbConnectionStringBuilder connectionStringBuilder)
     {
-        connectionStringBuilder.Add("Log Parameters", database);
+        connectionStringBuilder.Add("Log Parameters", "");
         
         return connectionStringBuilder;
     }
