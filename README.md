@@ -35,7 +35,61 @@ This package can be found both [on NuGet](https://www.nuget.org/packages/Protocu
     var tcpConnectionString = postgres.Configuration.TcpConnectionString;
 ```
 
-> note: The embedded postgres server runs as the same user as your application, this means that you cannot run as administrator as postgres does not support it.
+> note: The embedded postgres server runs as the same user as your application, this means that you cannot run your application as administrator as postgres will refuse to start.
+
+### How do I use this with xUnit?
+
+I'm currently working on coming up with an appropriate combination of libraries and documentation that will build on top of this one.
+
+In the meantime however, if you're looking to get started with integration testing using this library in xUnit, consider the following:
+
+```c#
+public class EmbeddedPostgresFixture : IAsyncLifetime
+{
+    public readonly EmbeddedPostgres Server;
+
+    public EmbeddedPostgresFixture()
+    {
+        Server = new(new()
+        {
+            Transient = true,
+        });
+    }
+
+    public async Task InitializeAsync()
+    {
+        await Server.Start();
+    }
+
+    public async Task DisposeAsync()
+    {
+        await Server.Stop();
+    }
+}
+
+[CollectionDefinition(nameof(EmbeddedPostgresFixture))]
+public class EmbeddedPostgresCollectionFixture : ICollectionFixture<EmbeddedPostgresFixture>
+{
+}
+```
+
+With the above in place, you can inject `EmbeddedPostgres` into the constructor of your test classes using the following annotation:
+
+```c#
+[Collection(nameof(EmbeddedPostgresFixture))]
+public class MyTests : IAsyncLifetime
+{
+    private readonly EmbeddedPostgres embeddedPostgres;
+
+    public MyTests(EmbeddedPostgresFixture embeddedPostgresFixture)
+    {
+        embeddedPostgres = embeddedPostgresFixture.Server;
+    }
+
+    // ...
+```
+
+This will get you an instance of the server that is run only once and shared across all tests. Again, I hope to offer more in the near future to make testing with Entity Framework a snap, stay tuned!
 
 ## Meta
 
@@ -48,7 +102,6 @@ The first use case for this project is as an easy zero-ops solution for integrat
 My hope is that it can grow into a 1st class option for any .NET developers looking to embed postgres in their applications.
 
 ### How does it work?
-
 Nothing too magical, postgres binaries for each supported platform are distributed with this package. A thin layer of C# code provides a bridge for configuration, conventions and process lifecycle.
 
 ### Inspiration
