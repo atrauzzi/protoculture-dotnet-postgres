@@ -39,7 +39,7 @@ This package can be found both [on NuGet](https://www.nuget.org/packages/Protocu
 
 ### How do I use this with xUnit?
 
-I'm currently working on coming up with an appropriate combination of libraries and documentation that will build on top of this one.
+I'm currently working on coming up with an appropriate combination of libraries and documentation that will build on top of this project.
 
 In the meantime however, if you're looking to get started with integration testing using this library in xUnit, consider the following:
 
