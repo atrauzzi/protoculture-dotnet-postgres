@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Protoculture.Postgres.Embedded;
@@ -150,7 +151,32 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         serverProcess.BeginOutputReadLine();
         serverProcess.BeginErrorReadLine();
 
-        await initialization.Task;
+        var timeout = TimeSpan.FromSeconds(30);
+        var deadline = DateTimeOffset.Now.Add(timeout);
+
+        while (DateTimeOffset.Now < deadline)
+        {
+            if (serverProcess.HasExited)
+            {
+                throw new("Postgres process exited unexpectedly before starting.");
+            }
+
+            try
+            {
+                using var tcpClient = new TcpClient();
+                await tcpClient.ConnectAsync("127.0.0.1", Configuration.Port);
+                initialization.SetResult(true);
+                return;
+            }
+            catch
+            {
+                // ignored
+            }
+
+            await Task.Delay(500);
+        }
+
+        throw new("Postgres failed to start within 30 seconds.");
     }
 
     private void ResetControlStates()
@@ -169,11 +195,6 @@ public sealed class EmbeddedPostgres : IDisposable, IAsyncDisposable
         if (Configuration.ShowOutput)
         {
             Console.WriteLine(args.Data);
-        }
-
-        if (args.Data.Contains("database system is ready to accept connections"))
-        {
-            initialization.SetResult(true);
         }
 
         if (args.Data.Contains("Execution of PostgreSQL by a user with administrative permissions is not permitted"))
